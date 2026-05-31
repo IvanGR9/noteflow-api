@@ -2,7 +2,7 @@
 
 API REST para NoteFlow, la app de notas de la Fase 7 de DAM. Construida con Next.js App Router y PostgreSQL en Neon.
 
-- Backend desplegado en: (se añadirá tras el despliegue en Vercel)
+- Backend desplegado en: https://noteflow-api-three.vercel.app
 - Repositorio app móvil: https://github.com/IvanGR9/noteflow
 
 ---
