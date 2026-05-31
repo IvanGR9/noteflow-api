@@ -1,0 +1,73 @@
+### Obtener todas las notas
+GET http://localhost:3000/api/notes
+
+### Crear una nota de tipo "note"
+POST http://localhost:3000/api/notes
+Content-Type: application/json
+
+{
+  "title": "Mi primera nota",
+  "type": "note",
+  "content": "Contenido de la nota",
+  "color": "#ffffff"
+}
+
+### Crear una nota de tipo "checklist"
+POST http://localhost:3000/api/notes
+Content-Type: application/json
+
+{
+  "title": "Lista de la compra",
+  "type": "checklist",
+  "color": "#d4f1c4"
+}
+
+### Crear una nota de tipo "idea"
+POST http://localhost:3000/api/notes
+Content-Type: application/json
+
+{
+  "title": "Idea de proyecto",
+  "type": "idea",
+  "content": "Una app para gestionar recetas de cocina",
+  "color": "#fef08a"
+}
+
+### Obtener una nota por ID
+GET http://localhost:3000/api/notes/00000000-0000-0000-0000-000000000001
+
+### Actualizar una nota por ID
+PATCH http://localhost:3000/api/notes/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+{
+  "title": "Título actualizado",
+  "content": "Contenido actualizado",
+  "color": "#fca5a5"
+}
+
+### Eliminar una nota por ID
+DELETE http://localhost:3000/api/notes/00000000-0000-0000-0000-000000000001
+
+### Obtener todos los checklist items de una nota
+GET http://localhost:3000/api/notes/00000000-0000-0000-0000-000000000001/checklist-items
+
+### Crear un checklist item en una nota
+POST http://localhost:3000/api/notes/00000000-0000-0000-0000-000000000001/checklist-items
+Content-Type: application/json
+
+{
+  "text": "Comprar leche"
+}
+
+### Actualizar un checklist item (marcar como completado y/o cambiar texto)
+PATCH http://localhost:3000/api/checklist-items/00000000-0000-0000-0000-000000000002
+Content-Type: application/json
+
+{
+  "is_completed": true,
+  "text": "Comprar leche desnatada"
+}
+
+### Eliminar un checklist item
+DELETE http://localhost:3000/api/checklist-items/00000000-0000-0000-0000-000000000002
