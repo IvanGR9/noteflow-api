@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/middleware';
 
 const noteSchema = z.object({
   title: z.string().min(3),
@@ -9,11 +10,13 @@ const noteSchema = z.object({
   color: z.string().optional(),
 });
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    verifyAuth(request);
     const notes = await sql`SELECT * FROM notes ORDER BY created_at DESC`;
     return NextResponse.json(notes);
   } catch (error) {
+    if (error instanceof NextResponse) return error;
     console.error('Error GET /api/notes:', error);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });
   }
@@ -21,6 +24,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    verifyAuth(request);
     const body = await request.json();
     const result = noteSchema.safeParse(body);
     if (!result.success) {
@@ -34,6 +38,7 @@ export async function POST(request: Request) {
     `;
     return NextResponse.json(note, { status: 201 });
   } catch (error) {
+    if (error instanceof NextResponse) return error;
     console.error('Error POST /api/notes:', error);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });
   }
