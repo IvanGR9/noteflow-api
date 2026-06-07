@@ -11,7 +11,7 @@ const patchSchema = z.object({
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { id } = await params;
     const [note] = await sql`SELECT * FROM notes WHERE id = ${id}`;
     if (!note) return NextResponse.json({ error: 'No encontrada' }, { status: 404 });
@@ -25,7 +25,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { id } = await params;
     const body = await request.json();
     const result = patchSchema.safeParse(body);
@@ -54,7 +54,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { id } = await params;
     await sql`DELETE FROM notes WHERE id = ${id}`;
     return new Response(null, { status: 204 });

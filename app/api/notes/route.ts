@@ -12,7 +12,7 @@ const noteSchema = z.object({
 
 export async function GET(request: Request) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const notes = await sql`SELECT * FROM notes ORDER BY created_at DESC`;
     return NextResponse.json(notes);
   } catch (error) {
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const body = await request.json();
     const result = noteSchema.safeParse(body);
     if (!result.success) {

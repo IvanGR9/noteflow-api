@@ -12,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { id } = await params;
     const items = await sql`
       SELECT * FROM checklist_items
@@ -32,7 +32,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { id } = await params;
     const body = await request.json();
     const result = itemSchema.safeParse(body);

@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth';
+import admin from '@/lib/firebase-admin';
 
-export function verifyAuth(request: Request): { userId: string } {
+export async function verifyAuth(request: Request): Promise<{ uid: string; email: string }> {
   const authHeader = request.headers.get('Authorization');
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
   if (!token) {
-    throw NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    throw NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const payload = verifyToken(token);
-    return { userId: payload.userId as string };
+    const decoded = await admin.auth().verifyIdToken(token);
+    return { uid: decoded.uid, email: decoded.email ?? '' };
   } catch {
-    throw NextResponse.json({ error: 'Token inválido' }, { status: 401 });
+    throw NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 }

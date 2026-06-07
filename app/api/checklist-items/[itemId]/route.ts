@@ -13,7 +13,7 @@ export async function PATCH(
   { params }: { params: Promise<{ itemId: string }> }
 ) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { itemId } = await params;
     const body = await request.json();
     const result = patchSchema.safeParse(body);
@@ -43,7 +43,7 @@ export async function DELETE(
   { params }: { params: Promise<{ itemId: string }> }
 ) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
     const { itemId } = await params;
     await sql`DELETE FROM checklist_items WHERE id = ${itemId}`;
     return new Response(null, { status: 204 });

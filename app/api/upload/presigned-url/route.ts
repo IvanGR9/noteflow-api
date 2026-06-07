@@ -19,7 +19,7 @@ const s3 = new S3Client({
 
 export async function POST(request: Request) {
   try {
-    verifyAuth(request);
+    await verifyAuth(request);
 
     const body = await request.json();
     const result = uploadSchema.safeParse(body);
